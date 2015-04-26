@@ -5,7 +5,6 @@
  */
 package com.correios.recover.automator;
 
-import com.correios.recover.automator.recover.FormRecoverRepository;
 import com.correios.recover.automator.recover.FormRecoverService;
 import com.correios.recover.CorreiosRecoverApplication;
 import com.correios.recover.model.recover.FormRecoverData;
