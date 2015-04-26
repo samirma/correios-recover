@@ -1,13 +1,17 @@
 package com.correios.recover.automator.recover;
 
 import com.correios.recover.model.recover.FormRecoverData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FormRecoverService {
 
-    public void loadForm() {
+    @Autowired
+    private FormCorreios fc;
 
+    public void loadForm() {
+        fc.loadForm();
     }
 
     public boolean isFormReadyloaded() {
@@ -42,6 +46,5 @@ public class FormRecoverService {
     public String getPINumber() {
         return "123";
     }
-
 
 }

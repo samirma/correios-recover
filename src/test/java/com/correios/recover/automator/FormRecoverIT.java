@@ -41,6 +41,7 @@ public class FormRecoverIT {
     @Test
     public void testSucessifulService() {
         formRecoverService.loadForm();
+        
         assertTrue(formRecoverService.isFormReadyloaded());
         
         formRecoverService.setRecoverData(recoverData);
