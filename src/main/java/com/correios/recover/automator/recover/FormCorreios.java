@@ -22,4 +22,6 @@ public interface FormCorreios {
 
     public void submitPiNumber();
 
+    public void loadRecoverData(FormRecoverData recoverData);
+
 }

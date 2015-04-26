@@ -11,7 +11,7 @@ public interface FormRecoverData {
     /**
      * @return the cepPost
      */
-    String getCepPost();
+    String getPostalCode();
 
     /**
      * @return the cnpj
@@ -21,17 +21,17 @@ public interface FormRecoverData {
     /**
      * @return the codigoDeRegistro
      */
-    String getCodigoDeRegistro();
+    String getTrackerNumber();
 
     /**
      * @return the emailParaContato
      */
-    String getEmailParaContato();
+    String getSenderEmail();
 
     /**
      * @return the endereco
      */
-    String getEndereco();
+    String getAddress();
 
     /**
      * @return the enderecoDoDestinatario

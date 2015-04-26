@@ -19,6 +19,7 @@ public class FormRecoverService {
     }
 
     public void setRecoverData(FormRecoverData recoverData) {
+        fc.loadRecoverData(recoverData);
     }
 
     public void fillTrackingCode() {

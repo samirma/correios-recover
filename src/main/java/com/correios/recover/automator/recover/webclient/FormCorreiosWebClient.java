@@ -3,6 +3,7 @@ package com.correios.recover.automator.recover.webclient;
 import com.correios.recover.automator.recover.FormCorreios;
 import com.correios.recover.automator.recover.webclient.actions.ClickAction;
 import com.correios.recover.automator.recover.webclient.actions.InputSelect;
+import com.correios.recover.automator.recover.webclient.actions.InputText;
 import com.correios.recover.automator.recover.webclient.actions.PageLoader;
 import com.correios.recover.automator.recover.webclient.actions.WebAction;
 import com.correios.recover.model.recover.FormRecoverData;
@@ -42,8 +43,6 @@ public class FormCorreiosWebClient implements FormCorreios {
         load.add(new InputSelect("origem_objeto", "N"));
         load.add(new ClickAction("//*[@id=\"aceite\"]"));
 
-        codeTracker.add(new InputSelect(CODIGO_OBJETO, "I"));
-
     }
 
     private void executeActions(List<WebAction> actions) {
@@ -72,7 +71,7 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     @Override
     public void setRecoverData(FormRecoverData recoverData) {
-        
+
     }
 
     @Override
@@ -103,6 +102,46 @@ public class FormCorreiosWebClient implements FormCorreios {
     @Override
     public void submitPiNumber() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void loadRecoverData(FormRecoverData recoverData) {
+        codeTracker.add(new InputSelect(CODIGO_OBJETO, recoverData.getTrackerNumber()));
+
+        loadSenderActions(recoverData);
+        loadRecipientAction(recoverData);
+        loadDetailsAction(recoverData);
+
+    }
+
+    private void loadSenderActions(FormRecoverData recoverData) {
+
+        load.add(new InputSelect("nome", recoverData.getNomeCompletoDoRemetente()));
+        load.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        load.add(new InputText("CPF_CNPJ", recoverData.getCnpj()));
+        load.add(new InputText("CEP", recoverData.getPostalCode()));
+        load.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        load.add(new InputText("endereco", recoverData.getAddress()));
+        load.add(new InputText("numero", recoverData.getNumero()));
+        load.add(new InputText("email", recoverData.getSenderEmail()));
+
+    }
+
+    private void loadRecipientAction(FormRecoverData recoverData) {
+
+        recipient.add(new InputText("nomeDestino", recoverData.getNomeDoDestinatario()));
+        recipient.add(new InputText("CEPDestino", recoverData.getCepOrder()));
+        recipient.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        recipient.add(new InputText("enderecoDestino", recoverData.getEnderecoDoDestinatario()));
+        recipient.add(new InputText("numeroDestino", recoverData.getNumeroDoDestinatario()));
+
+    }
+
+    private void loadDetailsAction(FormRecoverData recoverData) {
+
+        details.add(new ClickAction("//*[@value=\"113\"]"));
+        details.add(new InputSelect("motivo", recoverData.getMotivoDaSolicitacao().toString()));
+
     }
 
 }
