@@ -11,7 +11,7 @@ public class InputSelect extends NameValueInput {
     }
 
     @Override
-    public void exec(Browser browser) {
+    void executeAction(Browser browser) {
         WebElement element = browser.findElementByName(name);
         
         final Select select = new Select(element);

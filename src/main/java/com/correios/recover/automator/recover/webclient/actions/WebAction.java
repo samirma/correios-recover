@@ -11,6 +11,17 @@ import com.correios.recover.automator.recover.webclient.Browser;
  *
  * @author samir
  */
-public interface WebAction {
-    void exec(Browser browser);
+public abstract class WebAction {
+    
+    public void execute(final Browser browser){
+        preExecuteAction(browser);
+        executeAction(browser);
+    }
+
+    abstract void executeAction(Browser browser);
+
+    public void preExecuteAction(Browser browser) {
+        browser.checkAlertDialog();
+    }
+
 }

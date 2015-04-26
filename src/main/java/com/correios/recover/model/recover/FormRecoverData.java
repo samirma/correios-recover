@@ -3,74 +3,42 @@ package com.correios.recover.model.recover;
 
 public interface FormRecoverData {
 
-    /**
-     * @return the cepOrder
-     */
+
     String getCepOrder();
 
-    /**
-     * @return the cepPost
-     */
+
     String getPostalCode();
 
-    /**
-     * @return the cnpj
-     */
+
     String getCnpj();
 
-    /**
-     * @return the codigoDeRegistro
-     */
+
     String getTrackerNumber();
 
-    /**
-     * @return the emailParaContato
-     */
+
     String getSenderEmail();
 
-    /**
-     * @return the endereco
-     */
+
     String getAddress();
 
-    /**
-     * @return the enderecoDoDestinatario
-     */
-    String getEnderecoDoDestinatario();
 
-    /**
-     * @return the id
-     */
+    String getSenderName();
+
+
     Integer getId();
 
-    /**
-     * @return the motivoDaSolicitacao
-     */
-    Integer getMotivoDaSolicitacao();
 
-    /**
-     * @return the nomeCompletoDoRemetente
-     */
-    String getNomeCompletoDoRemetente();
+    Integer getMotivationCode();
 
-    /**
-     * @return the nomeDoDestinatario
-     */
-    String getNomeDoDestinatario();
 
-    /**
-     * @return the numero
-     */
-    String getNumero();
+    String getReceiverName();
 
-    /**
-     * @return the numeroDoDestinatario
-     */
-    String getNumeroDoDestinatario();
+ 
+    String getSenderAddressNumber();
 
-    /**
-     * @return the observacao
-     */
-    String getObservacao();
+  
+    String getReceiverAddressNumber();
+
+    String getMessage();
     
 }

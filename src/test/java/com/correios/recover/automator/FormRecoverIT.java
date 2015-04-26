@@ -7,6 +7,7 @@ package com.correios.recover.automator;
 
 import com.correios.recover.automator.recover.FormRecoverService;
 import com.correios.recover.CorreiosRecoverApplication;
+import com.correios.recover.model.test.RecoverDataUtil;
 import com.correios.recover.model.recover.FormRecoverData;
 import org.apache.commons.lang3.StringUtils;
 import static org.junit.Assert.*;
@@ -27,7 +28,8 @@ public class FormRecoverIT {
     @Autowired
     private FormRecoverService formRecoverService;
     
-    private FormRecoverData recoverData;
+    @Autowired
+    private RecoverDataUtil dataUtil;
     
     
     public FormRecoverIT() {
@@ -35,21 +37,24 @@ public class FormRecoverIT {
     
     @Before
     public void setUp() {
+        
     }
 
     @Test
     public void testSucessifulService() {
+        
         formRecoverService.loadForm();
         
         assertTrue(formRecoverService.isFormReadyloaded());
         
+        FormRecoverData recoverData = dataUtil.getDumpData();
         formRecoverService.setRecoverData(recoverData);
         
         formRecoverService.fillTrackingCode();
         
         formRecoverService.fillSenderFields();
                 
-        formRecoverService.fillRecipientFields();
+        formRecoverService.fillReceiverFields();
         
         formRecoverService.fillDetailsFields();
         

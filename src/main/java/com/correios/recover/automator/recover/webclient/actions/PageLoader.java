@@ -4,7 +4,7 @@ package com.correios.recover.automator.recover.webclient.actions;
 import com.correios.recover.automator.recover.webclient.Browser;
 
 
-public class PageLoader implements WebAction{
+public class PageLoader extends WebAction{
     private String url;
     
     public PageLoader(final String url) {
@@ -12,7 +12,7 @@ public class PageLoader implements WebAction{
     }
 
     @Override
-    public void exec(Browser browser) {
+    void executeAction(Browser browser) {
         browser.loadPage(url);
     }
 

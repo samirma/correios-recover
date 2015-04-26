@@ -2,7 +2,7 @@ package com.correios.recover.automator.recover.webclient.actions;
 
 import com.correios.recover.automator.recover.webclient.Browser;
 
-public abstract class NameValueInput implements WebAction {
+public abstract class NameValueInput extends WebAction {
     
     protected Long defaultDelay = 500l;
 
@@ -15,7 +15,7 @@ public abstract class NameValueInput implements WebAction {
     }
 
     @Override
-    public void exec(Browser browser) {
+    void executeAction(Browser browser) {
     }
 
     /**

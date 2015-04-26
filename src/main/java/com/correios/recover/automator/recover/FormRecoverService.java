@@ -23,21 +23,28 @@ public class FormRecoverService {
     }
 
     public void fillTrackingCode() {
+        fc.fillTrackingCode();
     }
 
     public void fillSenderFields() {
+        fc.fillSenderFields();
     }
 
-    public void fillRecipientFields() {
+    public void fillReceiverFields() {
+        fc.fillRecipientFields();
+
     }
 
     public void fillDetailsFields() {
+        fc.fillTrackingCode();
     }
 
     public void submitForm() {
+        fc.submitForm();
     }
 
     public void submitPiNumber() {
+        fc.submitPiNumber();
     }
 
     public boolean isPISaved() {

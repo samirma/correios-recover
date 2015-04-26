@@ -25,7 +25,7 @@ public class FormCorreiosWebClient implements FormCorreios {
     private final static List<WebAction> load;
     private final static List<WebAction> codeTracker;
     private final static List<WebAction> sender;
-    private final static List<WebAction> recipient;
+    private final static List<WebAction> receiver;
     private final static List<WebAction> details;
 
     @Autowired
@@ -35,7 +35,7 @@ public class FormCorreiosWebClient implements FormCorreios {
         load = new ArrayList<>();
         codeTracker = new ArrayList<>();
         sender = new ArrayList<>();
-        recipient = new ArrayList<>();
+        receiver = new ArrayList<>();
         details = new ArrayList<>();
 
         load.add(new PageLoader("http://www2.correios.com.br/sistemas/falecomoscorreios/"));
@@ -48,7 +48,7 @@ public class FormCorreiosWebClient implements FormCorreios {
     private void executeActions(List<WebAction> actions) {
 
         actions.stream().forEach((action) -> {
-            action.exec(browser);
+            action.execute(browser);
             try {
                 Thread.sleep(DEFAULT_DELAY);
             } catch (InterruptedException ex) {
@@ -86,7 +86,7 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     @Override
     public void fillRecipientFields() {
-        executeActions(recipient);
+        executeActions(receiver);
     }
 
     @Override
@@ -106,41 +106,42 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     @Override
     public void loadRecoverData(FormRecoverData recoverData) {
-        codeTracker.add(new InputSelect(CODIGO_OBJETO, recoverData.getTrackerNumber()));
+        codeTracker.add(new InputText(CODIGO_OBJETO, recoverData.getTrackerNumber()));
 
         loadSenderActions(recoverData);
-        loadRecipientAction(recoverData);
+        loadReceiverAction(recoverData);
         loadDetailsAction(recoverData);
 
     }
 
     private void loadSenderActions(FormRecoverData recoverData) {
 
-        load.add(new InputSelect("nome", recoverData.getNomeCompletoDoRemetente()));
-        load.add(new ClickAction("//*[@value=\"CNPJ\"]"));
-        load.add(new InputText("CPF_CNPJ", recoverData.getCnpj()));
-        load.add(new InputText("CEP", recoverData.getPostalCode()));
-        load.add(new ClickAction("//*[@value=\"CNPJ\"]"));
-        load.add(new InputText("endereco", recoverData.getAddress()));
-        load.add(new InputText("numero", recoverData.getNumero()));
-        load.add(new InputText("email", recoverData.getSenderEmail()));
+        sender.add(new InputSelect("nome", recoverData.getSenderName()));
+        sender.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        sender.add(new InputText("CPF_CNPJ", recoverData.getCnpj()));
+        sender.add(new InputText("CEP", recoverData.getPostalCode()));
+        sender.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        sender.add(new InputText("endereco", recoverData.getAddress()));
+        sender.add(new InputText("numero", recoverData.getSenderAddressNumber()));
+        sender.add(new InputText("email", recoverData.getSenderEmail()));
 
     }
 
-    private void loadRecipientAction(FormRecoverData recoverData) {
+    private void loadReceiverAction(FormRecoverData recoverData) {
 
-        recipient.add(new InputText("nomeDestino", recoverData.getNomeDoDestinatario()));
-        recipient.add(new InputText("CEPDestino", recoverData.getCepOrder()));
-        recipient.add(new ClickAction("//*[@value=\"CNPJ\"]"));
-        recipient.add(new InputText("enderecoDestino", recoverData.getEnderecoDoDestinatario()));
-        recipient.add(new InputText("numeroDestino", recoverData.getNumeroDoDestinatario()));
+        receiver.add(new InputText("nomeDestino", recoverData.getReceiverName()));
+        receiver.add(new InputText("CEPDestino", recoverData.getCepOrder()));
+        receiver.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        receiver.add(new InputText("enderecoDestino", recoverData.getSenderName()));
+        receiver.add(new InputText("numeroDestino", recoverData.getReceiverAddressNumber()));
 
     }
 
     private void loadDetailsAction(FormRecoverData recoverData) {
 
         details.add(new ClickAction("//*[@value=\"113\"]"));
-        details.add(new InputSelect("motivo", recoverData.getMotivoDaSolicitacao().toString()));
+        details.add(new InputSelect("motivo", recoverData.getMotivationCode().toString()));
+        details.add(new InputSelect("msg", recoverData.getMessage()));
 
     }
 

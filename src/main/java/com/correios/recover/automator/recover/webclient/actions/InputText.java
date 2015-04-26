@@ -11,11 +11,10 @@ public class InputText extends NameValueInput {
     }
 
     @Override
-    public void exec(Browser browser) {
+    void executeAction(Browser browser) {
         WebElement element = browser.findElementByName(name);
         element.click();
         element.sendKeys(getValue());
-        browser.blurByJavaScript(name);
     }
 
 }
