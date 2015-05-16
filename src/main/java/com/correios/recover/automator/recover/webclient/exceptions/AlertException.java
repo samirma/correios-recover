@@ -1,10 +1,10 @@
 package com.correios.recover.automator.recover.webclient.exceptions;
 
-public class AlertMsgException extends RuntimeException {
+public class AlertException extends RuntimeException {
 
     public String alertMsg;
 
-    public AlertMsgException(final String alertMsg) {
+    public AlertException(final String alertMsg) {
         this.alertMsg = alertMsg;
     }
 

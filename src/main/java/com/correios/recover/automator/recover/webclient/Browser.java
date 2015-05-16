@@ -1,12 +1,14 @@
 package com.correios.recover.automator.recover.webclient;
 
-import com.correios.recover.automator.recover.webclient.exceptions.AlertMsgException;
+import com.correios.recover.automator.recover.webclient.exceptions.AlertException;
+import com.correios.recover.automator.recover.webclient.exceptions.factory.MessageAlertFactory;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -16,6 +18,9 @@ public abstract class Browser {
 
     protected WebDriver driver;
     protected JavascriptExecutor javascriptExecutor;
+
+    @Autowired
+    protected MessageAlertFactory alertFactory;
 
     public void loadPage(String url) {
         driver.get(url);
@@ -38,7 +43,11 @@ public abstract class Browser {
         } catch (NoAlertPresentException e) {
             return;
         }
-        throw new AlertMsgException(alertMsg);
+        throw alertFactory.getAlertException(alertMsg);
+    }
+
+    public void blur(WebElement element) {
+        javascriptExecutor.executeScript("arguments[0].onblur();", element);
     }
 
 }

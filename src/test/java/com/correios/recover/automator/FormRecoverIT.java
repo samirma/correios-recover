@@ -7,6 +7,7 @@ package com.correios.recover.automator;
 
 import com.correios.recover.automator.recover.FormRecoverService;
 import com.correios.recover.CorreiosRecoverApplication;
+import com.correios.recover.automator.recover.webclient.exceptions.StopIterationExcepition;
 import com.correios.recover.model.test.RecoverDataUtil;
 import com.correios.recover.model.recover.FormRecoverData;
 import org.apache.commons.lang3.StringUtils;
@@ -25,47 +26,69 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CorreiosRecoverApplication.class)
 public class FormRecoverIT {
+
     @Autowired
     private FormRecoverService formRecoverService;
-    
+
     @Autowired
     private RecoverDataUtil dataUtil;
-    
-    
+
     public FormRecoverIT() {
     }
-    
+
     @Before
     public void setUp() {
+
+    }
+
+    //@Test
+    public void testTrackNumberNotFound() {
         
+        Exception exc = null;
+
+        try {
+            formRecoverService.loadForm();
+
+            assertTrue(formRecoverService.isFormReadyloaded());
+
+            FormRecoverData recoverData = dataUtil.getDumpData();
+            formRecoverService.setRecoverData(recoverData);
+
+            formRecoverService.fillTrackingCode();
+        } catch (Exception ex) {
+            exc = ex;
+        }
+        boolean result =  exc != null && exc instanceof StopIterationExcepition;
+        assertTrue(result);
+
     }
 
     @Test
     public void testSucessifulService() {
-        
+
         formRecoverService.loadForm();
-        
+
         assertTrue(formRecoverService.isFormReadyloaded());
-        
-        FormRecoverData recoverData = dataUtil.getDumpData();
+
+        FormRecoverData recoverData = dataUtil.getDumpDataOk();
         formRecoverService.setRecoverData(recoverData);
-        
+
         formRecoverService.fillTrackingCode();
-        
+
         formRecoverService.fillSenderFields();
-                
+
         formRecoverService.fillReceiverFields();
-        
+
         formRecoverService.fillDetailsFields();
-        
+
         formRecoverService.submitForm();
-        
+
         formRecoverService.submitPiNumber();
-        
+
         assertTrue(formRecoverService.isPISaved());
-        
+
         assertTrue(StringUtils.isNumeric(formRecoverService.getPINumber()));
-        
+
     }
-    
+
 }

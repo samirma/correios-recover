@@ -1,11 +1,14 @@
 package com.correios.recover.automator.recover.webclient;
 
+import com.correios.recover.automator.recover.webclient.actions.BlurEvent;
 import com.correios.recover.automator.recover.FormCorreios;
 import com.correios.recover.automator.recover.webclient.actions.ClickAction;
 import com.correios.recover.automator.recover.webclient.actions.InputSelect;
 import com.correios.recover.automator.recover.webclient.actions.InputText;
 import com.correios.recover.automator.recover.webclient.actions.PageLoader;
 import com.correios.recover.automator.recover.webclient.actions.WebAction;
+import com.correios.recover.automator.recover.webclient.exceptions.NotifyAlertException;
+import com.correios.recover.automator.recover.webclient.exceptions.StopIterationExcepition;
 import com.correios.recover.model.recover.FormRecoverData;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +50,26 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     private void executeActions(List<WebAction> actions) {
 
-        actions.stream().forEach((action) -> {
-            action.execute(browser);
+        for (WebAction action : actions) {
             try {
-                Thread.sleep(DEFAULT_DELAY);
-            } catch (InterruptedException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                action.execute(browser);
+            } catch (NotifyAlertException ex) {
+                continue;
+            } catch (Exception ex) {
+                throw ex;
             }
-        });
+            
+            sleep();
+        }
 
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(DEFAULT_DELAY);
+        } catch (InterruptedException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -116,11 +130,11 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     private void loadSenderActions(FormRecoverData recoverData) {
 
-        sender.add(new InputSelect("nome", recoverData.getSenderName()));
+        sender.add(new InputText("nome", recoverData.getSenderName()));
         sender.add(new ClickAction("//*[@value=\"CNPJ\"]"));
         sender.add(new InputText("CPF_CNPJ", recoverData.getCnpj()));
         sender.add(new InputText("CEP", recoverData.getPostalCode()));
-        sender.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        sender.add(new BlurEvent("CEP"));
         sender.add(new InputText("endereco", recoverData.getAddress()));
         sender.add(new InputText("numero", recoverData.getSenderAddressNumber()));
         sender.add(new InputText("email", recoverData.getSenderEmail()));
@@ -131,7 +145,7 @@ public class FormCorreiosWebClient implements FormCorreios {
 
         receiver.add(new InputText("nomeDestino", recoverData.getReceiverName()));
         receiver.add(new InputText("CEPDestino", recoverData.getCepOrder()));
-        receiver.add(new ClickAction("//*[@value=\"CNPJ\"]"));
+        receiver.add(new BlurEvent("CEPDestino"));
         receiver.add(new InputText("enderecoDestino", recoverData.getSenderName()));
         receiver.add(new InputText("numeroDestino", recoverData.getReceiverAddressNumber()));
 
