@@ -1,6 +1,6 @@
 package com.correios.recover.automator.recover.webclient;
 
-import com.correios.recover.automator.recover.webclient.exceptions.AlertException;
+import com.correios.recover.automator.recover.captcha.CaptchaSolver;
 import com.correios.recover.automator.recover.webclient.exceptions.factory.MessageAlertFactory;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,6 +27,9 @@ public abstract class Browser {
 
     @Autowired
     protected MessageAlertFactory alertFactory;
+    
+    @Autowired
+    private CaptchaSolver captchaSolver;
 
     public void loadPage(String url) {
         driver.get(url);
@@ -82,6 +85,12 @@ public abstract class Browser {
         ImageIO.write(dest, "png", screen);
 
         return screen;
+    }
+    
+    
+    public String getCapthaString(){
+        final String result = captchaSolver.solve(this);
+        return result;
     }
 
 }

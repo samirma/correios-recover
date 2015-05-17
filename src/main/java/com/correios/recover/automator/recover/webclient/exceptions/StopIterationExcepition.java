@@ -8,4 +8,8 @@ public class StopIterationExcepition extends AlertException {
         super(alertMsg);
     }
 
+    public StopIterationExcepition(String message, Exception ex) {
+        super(message, ex);
+    }
+
 }

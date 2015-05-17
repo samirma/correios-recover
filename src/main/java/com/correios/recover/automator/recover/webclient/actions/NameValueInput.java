@@ -7,11 +7,16 @@ public abstract class NameValueInput extends WebAction {
     protected Long defaultDelay = 500l;
 
     protected String name;
-    private String value;
+    protected String value;
 
     public NameValueInput(String name, String value) {
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "NameValueInput{" + "name=" + name + ", value=" + value + '}';
     }
 
     @Override

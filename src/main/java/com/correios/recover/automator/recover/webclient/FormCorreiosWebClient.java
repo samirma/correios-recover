@@ -2,18 +2,21 @@ package com.correios.recover.automator.recover.webclient;
 
 import com.correios.recover.automator.recover.webclient.actions.BlurEvent;
 import com.correios.recover.automator.recover.FormCorreios;
+import com.correios.recover.automator.recover.webclient.actions.CaptchaSolverAction;
 import com.correios.recover.automator.recover.webclient.actions.ClickAction;
 import com.correios.recover.automator.recover.webclient.actions.InputSelect;
 import com.correios.recover.automator.recover.webclient.actions.InputText;
 import com.correios.recover.automator.recover.webclient.actions.PageLoader;
 import com.correios.recover.automator.recover.webclient.actions.WebAction;
 import com.correios.recover.automator.recover.webclient.exceptions.NotifyAlertException;
+import com.correios.recover.automator.recover.webclient.exceptions.StopIterationExcepition;
 import com.correios.recover.model.recover.FormRecoverData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import org.eclipse.jetty.util.resource.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,7 @@ public class FormCorreiosWebClient implements FormCorreios {
     private List<WebAction> sender;
     private List<WebAction> receiver;
     private List<WebAction> details;
+    private List<WebAction> submit;
 
     @Autowired
     private Browser browser;
@@ -41,11 +45,14 @@ public class FormCorreiosWebClient implements FormCorreios {
         sender = new ArrayList<>();
         receiver = new ArrayList<>();
         details = new ArrayList<>();
+        submit = new ArrayList<>();
 
         load.add(new PageLoader("http://www2.correios.com.br/sistemas/falecomoscorreios/"));
         load.add(new InputSelect("tipo", "I"));
         load.add(new InputSelect("origem_objeto", "N"));
         load.add(new ClickAction("//*[@id=\"aceite\"]"));
+        
+        loadSubmitAction();
 
     }
 
@@ -57,7 +64,7 @@ public class FormCorreiosWebClient implements FormCorreios {
             } catch (NotifyAlertException ex) {
                 continue;
             } catch (Exception ex) {
-                throw ex;
+                throw new StopIterationExcepition(String.format("Fail to execute: %s", action), ex);
             }
 
             sleep();
@@ -111,7 +118,7 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     @Override
     public void submitForm() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        executeActions(submit);
     }
 
     @Override
@@ -163,6 +170,11 @@ public class FormCorreiosWebClient implements FormCorreios {
         details.add(new InputSelect("motivo", recoverData.getMotivationCode().toString()));
         //details.add(new InputSelect("msg", recoverData.getMessage()));
 
+    }
+    
+    private void loadSubmitAction(){
+        submit.add(new CaptchaSolverAction("codSeguro", null));
+        //submit.add(new ClickAction("//*[@name=\"botaoEnvia\"]"));
     }
 
 }
