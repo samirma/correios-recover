@@ -8,7 +8,6 @@ import com.correios.recover.automator.recover.webclient.actions.InputText;
 import com.correios.recover.automator.recover.webclient.actions.PageLoader;
 import com.correios.recover.automator.recover.webclient.actions.WebAction;
 import com.correios.recover.automator.recover.webclient.exceptions.NotifyAlertException;
-import com.correios.recover.automator.recover.webclient.exceptions.StopIterationExcepition;
 import com.correios.recover.model.recover.FormRecoverData;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class FormCorreiosWebClient implements FormCorreios {
             } catch (Exception ex) {
                 throw ex;
             }
-            
+
             sleep();
         }
 
@@ -137,6 +136,9 @@ public class FormCorreiosWebClient implements FormCorreios {
         sender.add(new BlurEvent("CEP"));
         sender.add(new InputText("endereco", recoverData.getAddress()));
         sender.add(new InputText("numero", recoverData.getSenderAddressNumber()));
+        sender.add(new InputText("bairro", recoverData.getNeighborhood()));
+        sender.add(new InputText("cidade", recoverData.getSenderCity()));
+        sender.add(new InputText("UF", recoverData.getSenderState()));
         sender.add(new InputText("email", recoverData.getSenderEmail()));
 
     }
@@ -148,14 +150,16 @@ public class FormCorreiosWebClient implements FormCorreios {
         receiver.add(new BlurEvent("CEPDestino"));
         receiver.add(new InputText("enderecoDestino", recoverData.getSenderName()));
         receiver.add(new InputText("numeroDestino", recoverData.getReceiverAddressNumber()));
-
+        receiver.add(new InputText("bairroDestino", recoverData.getReceiverNeighborhood()));
+        receiver.add(new InputText("cidadeDestino", recoverData.getReceiverCity()));
+        receiver.add(new InputText("UFDestino", recoverData.getReceiverState()));
     }
 
     private void loadDetailsAction(FormRecoverData recoverData) {
 
         details.add(new ClickAction("//*[@value=\"113\"]"));
         details.add(new InputSelect("motivo", recoverData.getMotivationCode().toString()));
-        details.add(new InputSelect("msg", recoverData.getMessage()));
+        //details.add(new InputSelect("msg", recoverData.getMessage()));
 
     }
 

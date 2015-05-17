@@ -36,7 +36,7 @@ public class FormRecoverService {
     }
 
     public void fillDetailsFields() {
-        fc.fillTrackingCode();
+        fc.fillDetailsFields();
     }
 
     public void submitForm() {

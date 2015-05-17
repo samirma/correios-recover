@@ -16,6 +16,16 @@ public class FormRecoverDataBase implements FormRecoverData {
 
     protected String senderEmail;
 
+    private String neighborhood;
+
+    private String receiverNeighborhood;
+
+    private String senderCity;
+    private String senderState;
+
+    private String receiverCity;
+    private String receiverState;
+
     protected String address;
 
     protected String senderName;
@@ -163,6 +173,90 @@ public class FormRecoverDataBase implements FormRecoverData {
         int hash = 5;
         hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
+    }
+
+    /**
+     * @return the neighborhood
+     */
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    /**
+     * @param neighborhood the neighborhood to set
+     */
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    /**
+     * @return the receiverNeighborhood
+     */
+    public String getReceiverNeighborhood() {
+        return receiverNeighborhood;
+    }
+
+    /**
+     * @param receiverNeighborhood the receiverNeighborhood to set
+     */
+    public void setReceiverNeighborhood(String receiverNeighborhood) {
+        this.receiverNeighborhood = receiverNeighborhood;
+    }
+
+    /**
+     * @return the senderCity
+     */
+    public String getSenderCity() {
+        return senderCity;
+    }
+
+    /**
+     * @param senderCity the senderCity to set
+     */
+    public void setSenderCity(String senderCity) {
+        this.senderCity = senderCity;
+    }
+
+    /**
+     * @return the senderState
+     */
+    public String getSenderState() {
+        return senderState;
+    }
+
+    /**
+     * @param senderState the senderState to set
+     */
+    public void setSenderState(String senderState) {
+        this.senderState = senderState;
+    }
+
+    /**
+     * @return the receiverCity
+     */
+    public String getReceiverCity() {
+        return receiverCity;
+    }
+
+    /**
+     * @param receiverCity the receiverCity to set
+     */
+    public void setReceiverCity(String receiverCity) {
+        this.receiverCity = receiverCity;
+    }
+
+    /**
+     * @return the receiverState
+     */
+    public String getReceiverState() {
+        return receiverState;
+    }
+
+    /**
+     * @param receiverState the receiverState to set
+     */
+    public void setReceiverState(String receiverState) {
+        this.receiverState = receiverState;
     }
 
 }
