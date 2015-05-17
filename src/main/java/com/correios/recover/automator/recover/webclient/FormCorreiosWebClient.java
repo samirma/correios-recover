@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +25,17 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     private static final String CODIGO_OBJETO = "codigoObjeto";
 
-    private final static List<WebAction> load;
-    private final static List<WebAction> codeTracker;
-    private final static List<WebAction> sender;
-    private final static List<WebAction> receiver;
-    private final static List<WebAction> details;
+    private List<WebAction> load;
+    private List<WebAction> codeTracker;
+    private List<WebAction> sender;
+    private List<WebAction> receiver;
+    private List<WebAction> details;
 
     @Autowired
     private Browser browser;
 
-    static {
+    @PostConstruct
+    public void init() {
         load = new ArrayList<>();
         codeTracker = new ArrayList<>();
         sender = new ArrayList<>();
