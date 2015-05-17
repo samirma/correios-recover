@@ -93,4 +93,8 @@ public abstract class Browser {
         return result;
     }
 
+    public WebElement findElementById(String name) {
+        return driver.findElement(By.id(name));
+    }
+
 }
