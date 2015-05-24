@@ -103,7 +103,7 @@ public class CapchaDeathbycaptcha implements CaptchaSolver {
             final Captcha captcha = getCaptcha(aThis);
             result = getResult(captcha);
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error(ex.getMessage(), ex);
         }
 
         return result;

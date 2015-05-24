@@ -3,9 +3,11 @@ package com.correios.recover.automator.recover.webclient.exceptions.factory;
 import com.correios.recover.automator.recover.webclient.exceptions.AlertException;
 import com.correios.recover.automator.recover.webclient.exceptions.NotifyAlertException;
 import com.correios.recover.automator.recover.webclient.exceptions.StopIterationExcepition;
+import com.correios.recover.automator.recover.webclient.exceptions.WrongCaptchaException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +29,8 @@ public class MessageAlertFactoryImpl implements MessageAlertFactory {
             excepetion = new NotifyAlertException(message);
         } else if (isStopIterationException(message)){
             excepetion = new StopIterationExcepition(message);
+        } else if (StringUtils.contains(message, "digo de segurança incorreto")) {
+            excepetion = new WrongCaptchaException(message);
         }
         
         return excepetion;
