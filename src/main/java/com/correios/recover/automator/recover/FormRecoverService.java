@@ -1,6 +1,9 @@
 package com.correios.recover.automator.recover;
 
+import com.correios.recover.automator.recover.repository.FormRecoverRepository;
+import com.correios.recover.automator.recover.service.PiParser;
 import com.correios.recover.model.recover.FormRecoverData;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,12 @@ public class FormRecoverService {
     @Autowired
     private FormCorreios fc;
 
+    @Autowired
+    private PiParser piParser;
+    
+    @Autowired
+    private FormRecoverRepository repository;
+
     public void loadForm() {
         fc.loadForm();
     }
@@ -18,7 +27,7 @@ public class FormRecoverService {
         return true;
     }
 
-    public void setRecoverData(FormRecoverData recoverData) {
+    public void setRecoverData(final FormRecoverData recoverData) {
         fc.loadRecoverData(recoverData);
     }
 
@@ -43,16 +52,39 @@ public class FormRecoverService {
         fc.submitForm();
     }
 
-    public void submitPiNumber() {
-        fc.submitPiNumber();
-    }
-
     public boolean isPISaved() {
         return true;
     }
 
     public String getPINumber() {
-        return "123";
+        final String piNumber = fc.getPINumber();
+        return piNumber;
+    }
+
+    public void processData(final FormRecoverData recoverData) {
+
+        loadForm();
+
+        setRecoverData(recoverData);
+
+        fillTrackingCode();
+
+        fillSenderFields();
+
+        fillReceiverFields();
+
+        fillDetailsFields();
+
+        submitForm();
+
+        final String piNumber = getPINumber();
+        
+        repository.savePi(piNumber, recoverData);
+
+    }
+    
+    public List<FormRecoverData> getList(){
+        return repository.getFormRecoverDataToProcess();
     }
 
 }

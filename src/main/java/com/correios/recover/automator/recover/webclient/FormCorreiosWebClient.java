@@ -2,6 +2,7 @@ package com.correios.recover.automator.recover.webclient;
 
 import com.correios.recover.automator.recover.webclient.actions.BlurEvent;
 import com.correios.recover.automator.recover.FormCorreios;
+import com.correios.recover.automator.recover.service.PiParser;
 import com.correios.recover.automator.recover.webclient.actions.CaptchaSolverAction;
 import com.correios.recover.automator.recover.webclient.actions.ClickAction;
 import com.correios.recover.automator.recover.webclient.actions.InputSelect;
@@ -37,6 +38,9 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     @Autowired
     private Browser browser;
+    
+    @Autowired
+    private PiParser piParser;
     
     final static private int LIMIT = 3;
 
@@ -141,10 +145,6 @@ public class FormCorreiosWebClient implements FormCorreios {
 
     }
 
-    @Override
-    public void submitPiNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void loadRecoverData(FormRecoverData recoverData) {
@@ -195,6 +195,15 @@ public class FormCorreiosWebClient implements FormCorreios {
     private void loadSubmitAction() {
         submit.add(new CaptchaSolverAction("codSeguro", null));
         submit.add(new ClickAction("//*[@name=\"botaoEnvia\"]"));
+    }
+
+    @Override
+    public String getPINumber() {
+        
+        final String html = browser.getHtml();
+        final String piFromHtml = piParser.getPIFromHtml(html);
+        return piFromHtml;
+
     }
 
 }

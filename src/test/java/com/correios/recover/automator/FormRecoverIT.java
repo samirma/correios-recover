@@ -65,25 +65,10 @@ public class FormRecoverIT {
 
     @Test
     public void testSucessifulService() {
+        
+        final FormRecoverData recoverData = dataUtil.getDumpDataOk();
 
-        formRecoverService.loadForm();
-
-        assertTrue(formRecoverService.isFormReadyloaded());
-
-        FormRecoverData recoverData = dataUtil.getDumpDataOk();
-        formRecoverService.setRecoverData(recoverData);
-
-        formRecoverService.fillTrackingCode();
-
-        formRecoverService.fillSenderFields();
-
-        formRecoverService.fillReceiverFields();
-
-        formRecoverService.fillDetailsFields();
-
-        formRecoverService.submitForm();
-
-        formRecoverService.submitPiNumber();
+        formRecoverService.processData(recoverData);
 
         assertTrue(formRecoverService.isPISaved());
 

@@ -96,5 +96,10 @@ public abstract class Browser {
     public WebElement findElementById(String name) {
         return driver.findElement(By.id(name));
     }
+    
+    public String getHtml(){
+        final String pageSource = driver.getPageSource();
+        return pageSource;
+    }
 
 }

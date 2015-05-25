@@ -20,8 +20,8 @@ public interface FormCorreios {
 
     public void submitForm();
 
-    public void submitPiNumber();
-
     public void loadRecoverData(FormRecoverData recoverData);
+
+    public String getPINumber();
 
 }

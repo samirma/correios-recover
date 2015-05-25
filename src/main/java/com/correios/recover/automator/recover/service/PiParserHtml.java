@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class PiParserHtml implements PiParser{
     
-    private static String xpathPi = "/html/body/div[1]/div[3]/div[2]/div/div/div[2]/div[2]/div[3]/div/div/p[3]/b[1]";
-
     @Override
     public String getPIFromHtml(String html) {
         final Document parse = Jsoup.parse(html);
